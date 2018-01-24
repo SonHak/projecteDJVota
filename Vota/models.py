@@ -12,10 +12,25 @@ class Consulta(models.Model):
 	fechaInicio = models.DateTimeField('Fecha de Inicio')
 	fechaFinal = models.DateTimeField('Fecha Final')
 
+	def __str__(self):
+		return self.titulo
+
 class Opcion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.CharField(max_length=200)
+	autor = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE,
+		)
 	votos = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return self.votos
+
+class Votacion(models.Model):
+	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
+	opcion = models.ForeignKey(Opcion,on_delete=models.CASCADE)
+
 
 class Invitacion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
