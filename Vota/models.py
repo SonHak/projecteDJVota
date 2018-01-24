@@ -18,10 +18,6 @@ class Consulta(models.Model):
 class Opcion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.CharField(max_length=200)
-	autor = models.ForeignKey(
-		settings.AUTH_USER_MODEL,
-		on_delete=models.CASCADE,
-		)
 	votos = models.IntegerField(default=0)
 
 	def __unicode__(self):
@@ -30,7 +26,10 @@ class Opcion(models.Model):
 class Votacion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.ForeignKey(Opcion,on_delete=models.CASCADE)
-
+	autor = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE,
+		)
 
 class Invitacion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)

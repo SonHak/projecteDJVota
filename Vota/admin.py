@@ -16,7 +16,7 @@ class adminOpcion(admin.ModelAdmin):
 	list_filter = ['consulta','opcion','votos']
 
 class adminVotar(admin.ModelAdmin):
-	list_display = ('consulta','opcion')
+	list_display = ('consulta','opcion','autor')
 
 admin.site.register(Consulta, votarOpcion)
 admin.site.register(Opcion,adminOpcion)
