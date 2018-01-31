@@ -20,8 +20,8 @@ class Opcion(models.Model):
 	opcion = models.CharField(max_length=200)
 	votos = models.IntegerField(default=0)
 
-	def __unicode__(self):
-		return self.votos
+	def __str__(self):
+		return self.opcion
 
 class Votacion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
@@ -30,6 +30,9 @@ class Votacion(models.Model):
 		settings.AUTH_USER_MODEL,
 		on_delete=models.CASCADE,
 		)
+	
 
+	
 class Invitacion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
+	email = models.CharField(max_length=200)

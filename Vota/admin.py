@@ -4,21 +4,33 @@ from .models import Consulta, Opcion, Invitacion, Votacion
 
 
 class ChoiceInline(admin.TabularInline):
-    model = Opcion
-    extra = 2
+	model = Opcion
+	extra = 2
 
-class votarOpcion(admin.ModelAdmin):
-    list_display = ('titulo','consulta','autor','fechaInicio','fechaFinal')
-    inlines = [ChoiceInline]
+
+class crearConsula(admin.ModelAdmin):
+	list_display = ('titulo','consulta','autor','fechaInicio','fechaFinal')
+	inlines = [ChoiceInline]
+	def get_queryset(self, request):
+		qs = super().get_queryset(request)
+		if request.user.is_superuser:
+			return qs
+		return qs.filter(autor=request.user)
+
 
 class adminOpcion(admin.ModelAdmin):
 	list_display = ('consulta','opcion','votos')
 	list_filter = ['consulta','opcion','votos']
-
+	
 class adminVotar(admin.ModelAdmin):
 	list_display = ('consulta','opcion','autor')
+	
 
-admin.site.register(Consulta, votarOpcion)
+class adminInvitar(admin.ModelAdmin):
+	list_display=('consulta','email')
+
+
+admin.site.register(Consulta, crearConsula)
 admin.site.register(Opcion,adminOpcion)
-admin.site.register(Invitacion)
+admin.site.register(Invitacion,adminInvitar)
 admin.site.register(Votacion,adminVotar)
