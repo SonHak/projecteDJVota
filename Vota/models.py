@@ -12,13 +12,23 @@ class Consulta(models.Model):
 	fechaInicio = models.DateTimeField('Fecha de Inicio')
 	fechaFinal = models.DateTimeField('Fecha Final')
 
+	
+	
 	def __str__(self):
 		return self.titulo
+
+	def opciones(self):
+		qs = Opcion.objects.filter(consulta = self)
+		return list(qs)
 
 class Opcion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.CharField(max_length=200)
-	votos = models.IntegerField(default=0)
+	
+	
+	def votar(self):
+		qs = Opcion.objects.filter(votacion__opcion = self.id)
+		return len(qs)
 
 	def __str__(self):
 		return self.opcion
@@ -30,7 +40,7 @@ class Votacion(models.Model):
 		settings.AUTH_USER_MODEL,
 		on_delete=models.CASCADE,
 		)
-	
+
 
 	
 class Invitacion(models.Model):

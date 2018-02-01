@@ -8,9 +8,14 @@ class ChoiceInline(admin.TabularInline):
 	extra = 2
 
 
-class crearConsula(admin.ModelAdmin):
-	list_display = ('titulo','consulta','autor','fechaInicio','fechaFinal')
+class adminConsulta(admin.ModelAdmin):
+	readonly_fields = ['autor']
+	list_display = ('titulo','consulta','autor','opciones','fechaInicio','fechaFinal')
+	list_filter = ['consulta','autor','fechaInicio','fechaInicio','fechaFinal']
 	inlines = [ChoiceInline]
+
+
+
 	def get_queryset(self, request):
 		qs = super().get_queryset(request)
 		if request.user.is_superuser:
@@ -18,19 +23,29 @@ class crearConsula(admin.ModelAdmin):
 		return qs.filter(autor=request.user)
 
 
+	def save_model(self, request, obj, form, change):
+		obj.autor = request.user
+		super(adminConsulta,self).save_model(request, obj, form, change)
+
+
+
 class adminOpcion(admin.ModelAdmin):
-	list_display = ('consulta','opcion','votos')
-	list_filter = ['consulta','opcion','votos']
+	readonly_fields = ['consulta']
+	list_display = ('opcion','votar','consulta')
+	list_filter = ['consulta','opcion']
+
+
 	
 class adminVotar(admin.ModelAdmin):
-	list_display = ('consulta','opcion','autor')
+	readonly_fields = ['consulta']
+	list_display = ('opcion','autor','consulta')
 	
 
 class adminInvitar(admin.ModelAdmin):
 	list_display=('consulta','email')
 
 
-admin.site.register(Consulta, crearConsula)
+admin.site.register(Consulta,adminConsulta)
 admin.site.register(Opcion,adminOpcion)
 admin.site.register(Invitacion,adminInvitar)
 admin.site.register(Votacion,adminVotar)
