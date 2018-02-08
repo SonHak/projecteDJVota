@@ -1,0 +1,9 @@
+<h1>{{ consulta.consulta }}</h1>
+
+<ul>
+{% for choice in consulta.opcion_set.all %}
+    <li>{{ choice.opcion }} -- {{ choice.votaciones }} vote{{ choice.votaciones|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'Vota:consulta' consulta.id %}">Vote again?</a>

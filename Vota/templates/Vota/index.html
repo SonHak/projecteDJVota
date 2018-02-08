@@ -1,0 +1,9 @@
+{% if consultas %}
+    <ul>
+    {% for consulta in consultas %}
+        <li><a href="{% url 'Vota:consulta' consulta.id %}">{{ consulta.consulta }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Consultas are available.</p>
+{% endif %}
