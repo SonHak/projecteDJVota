@@ -24,7 +24,6 @@ class Consulta(models.Model):
 class Opcion(models.Model):
 	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.CharField(max_length=200)
-	votaciones = models.IntegerField(default=0)
 	
 	def votar(self):
 		qs = Opcion.objects.filter(votacion__opcion = self.id)
@@ -34,12 +33,12 @@ class Opcion(models.Model):
 		return self.opcion
 
 class Votacion(models.Model):
-	consulta = models.ForeignKey(Consulta,on_delete=models.CASCADE)
 	opcion = models.ForeignKey(Opcion,on_delete=models.CASCADE)
 	autor = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
+		null=True,
 		on_delete=models.CASCADE,
-		)
+	)
 
 
 	

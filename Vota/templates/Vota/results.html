@@ -2,7 +2,7 @@
 
 <ul>
 {% for choice in consulta.opcion_set.all %}
-    <li>{{ choice.opcion }} -- {{ choice.votaciones }} vote{{ choice.votaciones|pluralize }}</li>
+    <li>{{ choice.opcion }} -- {{ choice.votar }}</li>
 {% endfor %}
 </ul>
 

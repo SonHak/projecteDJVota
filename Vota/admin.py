@@ -37,8 +37,7 @@ class adminOpcion(admin.ModelAdmin):
 
 	
 class adminVotar(admin.ModelAdmin):
-	readonly_fields = ['consulta']
-	list_display = ('opcion','autor','consulta')
+	list_display = ('opcion','autor')
 	
 
 class adminInvitar(admin.ModelAdmin):
