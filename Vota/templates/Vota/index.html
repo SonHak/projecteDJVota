@@ -1,9 +1,55 @@
-{% if consultas %}
-    <ul>
-    {% for consulta in consultas %}
-        <li><a href="{% url 'Vota:consulta' consulta.id %}">{{ consulta.consulta }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No Consultas are available.</p>
-{% endif %}
+{% extends "Vota/principal.html" %}
+
+{% block menu %}
+	<div class="collapse navbar-collapse" id="navbarNav">
+      	{% if user.is_authenticated %}
+	    <ul class="navbar-nav">
+	      <li class="nav-item active">
+        	<span>Bienvenido <b><i>{{ request.user }}</i></b></span>
+
+        	<form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'Vota:logoutUser' %}"> 
+			 	{% csrf_token %}
+			 	<input  class="form-control mr-sm-2 btn btn-outline-danger" type="submit" value="Logout"/>
+		 	</form>
+	      </li>
+	    </ul>
+	    {% endif %}
+	</div>
+
+{% endblock %}
+
+
+
+{% block content %}
+	<table class="table table-bordered">
+	  <thead class="thead-dark">
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">Título</th>
+	      <th scope="col">Pregunta</th>
+	      <th scope="col">Autor</th>
+	      <th scope="col">Fecha de Inicio</th>
+	      <th scope="col">Fecha de Finalización</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		{% if consultas %}
+		    
+		    {% for consulta in consultas %}
+		    <tr>
+		   		<th scope="row">{{ consulta.id }}</th>
+		    	<td>{{ consulta.titulo }}</td>
+		        <td>{{ consulta.consulta }} <br> <a class="btn btn-success btn-sm" href="{% url 'Vota:consulta' consulta.id %}"> Click me!</a></td>
+		        <td>{{ consulta.autor }}</td>
+		        <td>{{ consulta.fechaInicio }}</td>
+		        <td>{{ consulta.fechaFinal }}</td>
+		    {% endfor %}
+
+		    </tr>
+		{% else %}
+		    <tr>No Consultas are available.</tr>
+		{% endif %}
+	  </tbody>
+	</table>
+ {% endblock %}
+

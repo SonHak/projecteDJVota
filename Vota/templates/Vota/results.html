@@ -1,9 +1,35 @@
+{% extends "Vota/principal.html" %}
+
+{% block menu %}
+	<div class="collapse navbar-collapse" id="navbarNav">
+      	{% if user.is_authenticated %}
+	    <ul class="navbar-nav">
+	      <li class="nav-item active">
+        	<span>Bienvenido <b><i>{{ request.user }}</i></b></span>
+
+        	<form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'Vota:logoutUser' %}"> 
+			 	{% csrf_token %}
+			 	<input  class="form-control mr-sm-2 btn btn-outline-danger" type="submit" value="Logout"/>
+		 	</form>
+	      </li>
+	    </ul>
+	    {% endif %}
+	</div>
+
+{% endblock %}
+
+
+{% block content %}
 <h1>{{ consulta.consulta }}</h1>
 
 <ul>
 {% for choice in consulta.opcion_set.all %}
+	
     <li>{{ choice.opcion }} -- {{ choice.votar }}</li>
 {% endfor %}
 </ul>
 
-<a href="{% url 'Vota:consulta' consulta.id %}">Vote again?</a>
+<a href="{% url 'Vota:index' %}">Go back!?</a>
+
+{% endblock %}
+

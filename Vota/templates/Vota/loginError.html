@@ -1,0 +1,42 @@
+{% extends "Vota/base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+
+	
+	<div class="row">
+		<!-- vacio -->
+		<div class="col-md-4">
+		</div>
+
+		<!-- Formulario login -->
+		<div class="col-md-4">
+			
+			<form action="{% url 'Vota:loginUser' %}" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="">Usuario</label><br />
+					<input type="text" class="form-control" name="usuario" id="usuario1" />
+					<br />
+					<br />
+				</div>
+				<div class="form-group">
+					<label for="">Password</label><br />
+					<input type="password" class="form-control" name="contra" id="passw1"/>
+					<br />
+					<div class="alert alert-danger" role="alert">
+					  <p>Datos erroneos o el usuario no existe.</p>
+					</div>
+					<input type="submit" class="btn btn-warning" value="Login" />
+				</div>	
+
+			</form>
+		</div>
+		<!-- vacio  -->
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
+{% endblock %}

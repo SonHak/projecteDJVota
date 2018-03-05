@@ -1,12 +1,40 @@
+{% extends "Vota/principal.html" %}
+
+{% block menu %}
+	<div class="collapse navbar-collapse" id="navbarNav">
+      	{% if user.is_authenticated %}
+	    <ul class="navbar-nav">
+	      <li class="nav-item active">
+        	<span>Bienvenido <b><i>{{ request.user }}</i></b></span>
+
+        	<form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'Vota:logoutUser' %}"> 
+			 	{% csrf_token %}
+			 	<input  class="form-control mr-sm-2 btn btn-outline-danger" type="submit" value="Logout"/>
+		 	</form>
+	      </li>
+	    </ul>
+	    {% endif %}
+	</div>
+
+{% endblock %}
+
+{% block content %}
 <h1>{{ consulta.consulta }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'Vota:vota' consulta.id %}" method="post">
-{% csrf_token %}
-{% for choice in consulta.opcion_set.all %}
-    <input type="radio" name="opcion" id="opcion{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="opcion{{ forloop.counter }}">{{ choice.opcion }}</label><br />
-{% endfor %}
-<input type="submit" value="Vota" />
+	{% csrf_token %}
+	<select class="custom-select" name="opcion" >
+	{% for choice in consulta.opcion_set.all %}
+
+	  <option id="opcion{{ forloop.counter }}" value="{{ choice.id }}">{{ choice.opcion }}</option>
+	
+	{% endfor %}
+	<input type="submit" value="Vota" />
+	</select>
 </form>
+
+{% endblock %}
+
+

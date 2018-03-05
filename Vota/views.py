@@ -3,6 +3,10 @@ from django.http import HttpResponseRedirect,  Http404, HttpResponse
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
+
+from django.utils.datastructures import MultiValueDictKeyError
+
 
 from .models import Consulta , Opcion , Votacion 
 # Create your views here.
@@ -35,6 +39,33 @@ def vota(request, consulta_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        v = Votacion(opcion=selected_choice)
+        user_id = request.user
+        v = Votacion(opcion=selected_choice,autor=user_id)
         v.save()
         return HttpResponseRedirect(reverse('Vota:results', args=(consulta_id,)))
+
+
+def logearse(request):
+    return render(request,'Vota/login.html')
+
+def loginUser(request):
+
+    user = request.POST['usuario']
+    passw = request.POST['contra']
+    logUser = authenticate(request,username=user, password=passw)
+
+    if logUser is not None:
+        login(request,logUser)
+        return HttpResponseRedirect('index',request)
+
+    else:
+        return render(request, 'Vota/loginError.html', {
+            'error_message': "You didn't login correct.",
+        })
+
+
+def logoutUser(request):
+    if request.method == "POST":
+        logout(request)
+
+        return HttpResponseRedirect('home')

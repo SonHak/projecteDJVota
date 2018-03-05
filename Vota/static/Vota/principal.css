@@ -1,0 +1,15 @@
+#navbarNav ul{
+	margin-left: 85%;
+	width: 20%;
+	color:white;
+}
+.form-inline input{
+	margin-left: 20%;
+}
+
+table.table-bordered{
+	text-align: center;
+	margin-left: 5%;
+	margin-top: 2%;
+	width: 90%;
+}
